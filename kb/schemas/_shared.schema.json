@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://all-about-me/schemas/_shared.schema.json",
+  "title": "Shared frontmatter fields",
+  "description": "Required provenance fields present on every entity. Per-entity schemas extend this via allOf.",
+  "type": "object",
+  "required": ["id", "type", "source", "captured_at", "last_verified", "confidence", "schema_version"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$",
+      "description": "Stable kebab-case id. Must match the filename (without .md)."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["experience", "education", "certificate", "contact", "skill", "project", "goal"]
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": []
+    },
+    "source": {
+      "type": "string",
+      "enum": ["interview", "harvester", "manual", "mobile"],
+      "description": "Which capture path produced this entry."
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date",
+      "description": "YYYY-MM-DD, when this entry was first created."
+    },
+    "last_verified": {
+      "type": "string",
+      "format": "date",
+      "description": "YYYY-MM-DD, last time a human confirmed this is still accurate."
+    },
+    "last_confirmed": {
+      "type": "string",
+      "format": "date",
+      "description": "Optional YYYY-MM-DD freshness marker for facts that need periodic reconfirmation."
+    },
+    "durability": {
+      "type": "string",
+      "enum": ["durable", "perishable"],
+      "description": "Whether the fact is expected to remain true or needs a freshness check."
+    },
+    "ttl_days": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Optional number of days before a perishable fact should be reconfirmed."
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low"]
+    },
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    }
+  }
+}

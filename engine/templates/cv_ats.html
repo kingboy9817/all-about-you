@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ name }} — CV</title>
+<style>
+  /* ATS-safe variant: single column, system font, canonical headings, NO
+     letter-spacing and NO multi-column table — so a resume parser linearizes the
+     text in the same order a human reads it, and keyword/heading detection works.
+     This is the file to upload to ATS / Greenhouse portals; cv.html (two-column,
+     editorial) is for humans / warm intros. */
+  @page { size: A4; margin: 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: Arial, Helvetica, "Helvetica Neue", sans-serif; font-size: 10.5pt;
+         line-height: 1.4; color: #111; margin: 0; hyphens: none; -weasy-hyphens: none; }
+  h1 { font-size: 18pt; margin: 0 0 2pt; }
+  h2 { font-size: 12pt; margin: 13pt 0 4pt; border-bottom: 1px solid #999; padding-bottom: 2pt; }
+  h3 { font-size: 10.5pt; margin: 8pt 0 1pt; break-inside: avoid; page-break-inside: avoid; }
+  p { margin: 0 0 5pt; }
+  ul { margin: 2pt 0 6pt; padding-left: 16pt; }
+  li { margin: 0 0 2pt; }
+  .role-line { font-size: 11pt; font-weight: bold; margin: 0 0 1pt; }
+  .tagline { font-size: 10pt; color: #333; margin: 0 0 3pt; }
+  .contact { font-size: 9.5pt; color: #222; margin: 0 0 4pt; }
+</style>
+</head>
+<body>
+  <h1>{{ name }}</h1>
+  {% if title %}<div class="role-line">Application: {{ title }}{% if org %} — {{ org }}{% endif %}</div>{% endif %}
+  {% if tagline %}<div class="tagline">{{ tagline | plain }}</div>{% endif %}
+  <div class="contact">
+    {%- set parts = [] -%}
+    {%- if contact.email %}{% set _ = parts.append(contact.email) %}{% endif -%}
+    {%- if contact.phone %}{% set _ = parts.append(contact.phone) %}{% endif -%}
+    {%- if contact.base %}{% set _ = parts.append(contact.base) %}{% endif -%}
+    {%- if contact.linkedin %}{% set _ = parts.append(contact.linkedin) %}{% endif -%}
+    {{ parts | join('  |  ') }}
+  </div>
+
+  {% if profile %}<h2>Summary</h2><p>{{ profile | plain }}</p>{% endif %}
+
+  {% set ns = namespace(has_chips=false) %}
+  {% for blk in sidebar %}{% if blk.chips %}{% set ns.has_chips = true %}{% endif %}{% endfor %}
+  {% if ns.has_chips %}
+  <h2>Skills</h2>
+  {% for blk in sidebar %}{% if blk.chips %}<p><strong>{{ blk.heading }}:</strong> {{ blk.chips | map('plain') | join('; ') }}</p>{% endif %}{% endfor %}
+  {% endif %}
+
+  <h2>Experience</h2>
+  {% for sec in sections %}{% for e in sec.entries %}
+  <h3>{{ e.role }}{% if e.org %} — {{ e.org }}{% endif %} ({{ e.date }})</h3>
+  {% if e.summary %}<p>{{ e.summary | plain }}</p>{% endif %}
+  {% if e.bullets %}<ul>{% for b in e.bullets %}<li>{{ b | plain }}</li>{% endfor %}</ul>{% endif %}
+  {% endfor %}{% endfor %}
+
+  {% for blk in sidebar %}{% if blk.get('items') %}
+  <h2>{{ blk.heading }}</h2>
+  {% for it in blk.get('items') %}<p>{{ it.title | plain }}{% if it.meta %} — {{ it.meta }}{% endif %}</p>{% endfor %}
+  {% endif %}{% endfor %}
+</body>
+</html>

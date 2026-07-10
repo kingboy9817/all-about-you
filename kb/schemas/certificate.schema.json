@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://all-about-me/schemas/certificate.schema.json",
+  "title": "Certificate",
+  "description": "Professional certifications, online course completions, exams. Body: what it covered, project involved.",
+  "type": "object",
+  "allOf": [{"$ref": "_shared.schema.json"}],
+  "required": ["name", "issuer", "issued_date"],
+  "properties": {
+    "type": {"const": "certificate"},
+    "name": {"type": "string", "minLength": 1},
+    "issuer": {"type": "string", "minLength": 1},
+    "issued_date": {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$"},
+    "expires_date": {
+      "oneOf": [
+        {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$"},
+        {"type": "string", "const": "never"}
+      ]
+    },
+    "credential_id": {"type": "string"},
+    "verify_url": {"type": "string", "format": "uri"}
+  },
+  "examples": [
+    {
+      "id": "aws-saa-2024",
+      "type": "certificate",
+      "name": "AWS Certified Solutions Architect – Associate",
+      "issuer": "Amazon Web Services",
+      "issued_date": "2024-03",
+      "expires_date": "2027-03",
+      "credential_id": "AWS-SAA-XXXXX",
+      "verify_url": "https://www.credly.com/badges/XXXXX",
+      "tags": ["cloud", "aws"],
+      "source": "manual",
+      "captured_at": "2026-04-24",
+      "last_verified": "2026-04-24",
+      "confidence": "high",
+      "schema_version": 1
+    }
+  ]
+}

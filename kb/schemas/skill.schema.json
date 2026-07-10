@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://all-about-me/schemas/skill.schema.json",
+  "title": "Skill",
+  "description": "One skill or skill area. Body: how you use it, notable work, gaps. Keep skills coarse (language/framework/domain); don't list every library.",
+  "type": "object",
+  "allOf": [{"$ref": "_shared.schema.json"}],
+  "required": ["name", "category", "level"],
+  "properties": {
+    "type": {"const": "skill"},
+    "name": {"type": "string", "minLength": 1},
+    "category": {"type": "string", "enum": ["language", "framework", "tool", "domain", "soft-skill", "platform"]},
+    "level": {"type": "string", "enum": ["beginner", "intermediate", "advanced", "expert"]},
+    "years": {"type": "number", "minimum": 0},
+    "first_used": {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$"},
+    "used_at": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Ids of experience/ entries where this skill was applied."
+    }
+  },
+  "examples": [
+    {
+      "id": "python",
+      "type": "skill",
+      "name": "Python",
+      "category": "language",
+      "level": "expert",
+      "years": 8,
+      "first_used": "2018",
+      "used_at": ["shopify-senior-eng-2023", "acme-swe-intern-2021"],
+      "tags": ["backend", "data"],
+      "source": "manual",
+      "captured_at": "2026-04-24",
+      "last_verified": "2026-04-24",
+      "confidence": "high",
+      "schema_version": 1
+    },
+    {
+      "id": "kubernetes",
+      "type": "skill",
+      "name": "Kubernetes",
+      "category": "platform",
+      "level": "advanced",
+      "years": 4,
+      "used_at": ["shopify-senior-eng-2023"],
+      "tags": ["infra", "ops"],
+      "source": "interview",
+      "captured_at": "2026-04-24",
+      "last_verified": "2026-04-24",
+      "confidence": "high",
+      "schema_version": 1
+    }
+  ]
+}

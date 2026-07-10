@@ -1,0 +1,13 @@
+# Copy this to provider.local.yaml and adjust for your machine.
+# Relative paths are resolved from this config file's directory.
+# The KB should include kb/lens.md, kb/compass.md, and kb/positioning-rules/voice.md;
+# provider.get_lens() reads those files plus active goals under kb/goals/.
+kb_path: ../kb
+
+api_keys:
+  adzuna_key: ""
+  jooble_key: ""
+
+# Optional. Leave qmd_collection blank to use the built-in markdown scan fallback.
+qmd_collection: ""
+qmd_command: query

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://all-about-me/schemas/contact.schema.json",
+  "title": "Contact",
+  "description": "Person in your professional network. Body: who they are, shared history, why they matter. Met_via ties the contact back to a job/school/event for provenance.",
+  "type": "object",
+  "allOf": [{"$ref": "_shared.schema.json"}],
+  "required": ["name", "met_at", "met_via"],
+  "properties": {
+    "type": {"const": "contact"},
+    "name": {"type": "string", "minLength": 1},
+    "current_role": {"type": "string"},
+    "current_company": {"type": "string"},
+    "met_at": {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$", "description": "When you first met them."},
+    "met_via": {
+      "type": "string",
+      "description": "Free-text context (conference name, mutual friend) OR an id referencing an experience/education/project entry."
+    },
+    "relationship": {"type": "string", "enum": ["colleague", "former-colleague", "manager", "former-manager", "report", "mentor", "mentee", "client", "friend", "conference", "other"]},
+    "last_contact": {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$"}
+  },
+  "examples": [
+    {
+      "id": "jane-doe",
+      "type": "contact",
+      "name": "Jane Doe",
+      "current_role": "Staff Engineer",
+      "current_company": "Stripe",
+      "met_at": "2023-05",
+      "met_via": "shopify-senior-eng-2023",
+      "relationship": "former-colleague",
+      "last_contact": "2025-11",
+      "tags": ["ex-shopify", "infra"],
+      "source": "interview",
+      "captured_at": "2026-04-24",
+      "last_verified": "2026-04-24",
+      "confidence": "high",
+      "schema_version": 1
+    },
+    {
+      "id": "sam-patel",
+      "type": "contact",
+      "name": "Sam Patel",
+      "met_at": "2024-09",
+      "met_via": "PyCon Canada 2024 — met at the platform-infra BoF",
+      "relationship": "conference",
+      "tags": ["python", "conference-contact"],
+      "source": "mobile",
+      "captured_at": "2026-04-24",
+      "last_verified": "2026-04-24",
+      "confidence": "medium",
+      "schema_version": 1
+    }
+  ]
+}

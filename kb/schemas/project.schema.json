@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://all-about-me/schemas/project.schema.json",
+  "title": "Project",
+  "description": "A notable project — side project, OSS contribution, or a significant work project worth surfacing independently of its job entry. Body: what it was, your role, outcome.",
+  "type": "object",
+  "allOf": [{"$ref": "_shared.schema.json"}],
+  "required": ["name", "role", "start_date"],
+  "properties": {
+    "type": {"const": "project"},
+    "name": {"type": "string", "minLength": 1},
+    "role": {"type": "string", "description": "Your role on the project (lead, contributor, creator, etc.)"},
+    "start_date": {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$"},
+    "end_date": {
+      "oneOf": [
+        {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$"},
+        {"type": "string", "const": "present"}
+      ]
+    },
+    "context": {
+      "type": "string",
+      "description": "Optional id of an experience/education entry this project belongs to; empty for personal projects."
+    },
+    "url": {"type": "string", "format": "uri"},
+    "skills": {"type": "array", "items": {"type": "string"}}
+  },
+  "examples": [
+    {
+      "id": "all-about-me",
+      "type": "project",
+      "name": "all-about-me knowledge base",
+      "role": "creator",
+      "start_date": "2026-04",
+      "end_date": "present",
+      "url": "https://github.com/example/all-about-you",
+      "skills": ["python"],
+      "tags": ["personal", "kb"],
+      "source": "manual",
+      "captured_at": "2026-04-24",
+      "last_verified": "2026-04-24",
+      "confidence": "high",
+      "schema_version": 1
+    }
+  ]
+}

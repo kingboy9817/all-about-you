@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://all-about-me/schemas/experience.schema.json",
+  "title": "Experience (job / role)",
+  "description": "A professional role — one per company per title. Body is freeform markdown: what you did, projects, impact.",
+  "type": "object",
+  "allOf": [{"$ref": "_shared.schema.json"}],
+  "required": ["company", "role", "start_date"],
+  "properties": {
+    "type": {"const": "experience"},
+    "company": {"type": "string", "minLength": 1},
+    "role": {"type": "string", "minLength": 1, "description": "Job title at the time."},
+    "start_date": {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$", "description": "YYYY, YYYY-MM, or YYYY-MM-DD."},
+    "end_date": {
+      "oneOf": [
+        {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$"},
+        {"type": "string", "const": "present"}
+      ]
+    },
+    "location": {"type": "string"},
+    "employment_type": {"type": "string", "enum": ["full-time", "part-time", "contract", "internship", "freelance", "volunteer"]},
+    "team": {"type": "string"},
+    "skills": {"type": "array", "items": {"type": "string"}, "description": "Skill ids referenced from skills/."}
+  },
+  "examples": [
+    {
+      "id": "shopify-senior-eng-2023",
+      "type": "experience",
+      "company": "Shopify",
+      "role": "Senior Engineer",
+      "team": "Platform / Infra",
+      "start_date": "2023-02",
+      "end_date": "2024-11",
+      "location": "Remote (Ottawa HQ)",
+      "employment_type": "full-time",
+      "tags": ["python", "distributed-systems", "platform"],
+      "skills": ["python", "kubernetes"],
+      "source": "interview",
+      "captured_at": "2026-04-24",
+      "last_verified": "2026-04-24",
+      "confidence": "high",
+      "schema_version": 1
+    },
+    {
+      "id": "acme-swe-intern-2021",
+      "type": "experience",
+      "company": "Acme Corp",
+      "role": "Software Engineering Intern",
+      "start_date": "2021-05",
+      "end_date": "2021-08",
+      "employment_type": "internship",
+      "tags": ["typescript", "react"],
+      "source": "manual",
+      "captured_at": "2026-04-24",
+      "last_verified": "2026-04-24",
+      "confidence": "high",
+      "schema_version": 1
+    }
+  ]
+}

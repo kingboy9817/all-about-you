@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://all-about-me/schemas/goal.schema.json",
+  "title": "Goal (forward-looking intent)",
+  "description": "A forward-looking target that acts as a lens for opportunity evaluation. One per file. Part of Engine 1.5 (the lens): the engine reads goals to judge intent fit and to weight tiering.",
+  "type": "object",
+  "allOf": [{"$ref": "_shared.schema.json"}],
+  "required": ["summary", "priority"],
+  "properties": {
+    "type": {"const": "goal"},
+    "summary": {"type": "string", "minLength": 1, "description": "One line: what you want."},
+    "priority": {"type": "integer", "minimum": 1, "maximum": 5, "description": "1 (nice-to-have) .. 5 (core driver). Weights tiering."},
+    "horizon": {"type": "string", "enum": ["now", "1-2y", "3-5y", "someday"], "description": "Rough time horizon."},
+    "status": {"type": "string", "enum": ["active", "achieved", "paused", "dropped"], "description": "Lifecycle; default active."},
+    "metrics": {"type": "array", "items": {"type": "string"}, "description": "Optional: how you'd know it's met."}
+  },
+  "examples": [
+    {
+      "id": "senior-llm-infra-role",
+      "type": "goal",
+      "summary": "Land a senior infra/LLM role at an early-stage team",
+      "priority": 5,
+      "horizon": "now",
+      "status": "active",
+      "metrics": ["offer in hand", "remote or SG-based"],
+      "tags": ["career", "llm", "infra"],
+      "source": "manual",
+      "captured_at": "2026-06-05",
+      "last_verified": "2026-06-05",
+      "confidence": "high",
+      "schema_version": 1
+    }
+  ]
+}

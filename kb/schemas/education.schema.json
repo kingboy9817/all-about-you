@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://all-about-me/schemas/education.schema.json",
+  "title": "Education",
+  "description": "Formal education: degrees, diplomas, bootcamps. Body is freeform: coursework, thesis, notable profs.",
+  "type": "object",
+  "allOf": [{"$ref": "_shared.schema.json"}],
+  "required": ["institution", "credential", "start_date"],
+  "properties": {
+    "type": {"const": "education"},
+    "institution": {"type": "string", "minLength": 1},
+    "credential": {"type": "string", "description": "e.g., B.Sc. Computer Science, M.Eng., Bootcamp Certificate."},
+    "field": {"type": "string"},
+    "start_date": {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$"},
+    "end_date": {
+      "oneOf": [
+        {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?$"},
+        {"type": "string", "const": "present"}
+      ]
+    },
+    "gpa": {"type": ["string", "number"]},
+    "honors": {"type": "array", "items": {"type": "string"}}
+  },
+  "examples": [
+    {
+      "id": "uwaterloo-bsc-cs-2022",
+      "type": "education",
+      "institution": "University of Waterloo",
+      "credential": "B.Sc. Computer Science",
+      "field": "Computer Science",
+      "start_date": "2018-09",
+      "end_date": "2022-06",
+      "honors": ["Dean's List 2021"],
+      "tags": ["cs", "coop"],
+      "source": "manual",
+      "captured_at": "2026-04-24",
+      "last_verified": "2026-04-24",
+      "confidence": "high",
+      "schema_version": 1
+    }
+  ]
+}

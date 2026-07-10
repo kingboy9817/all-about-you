@@ -1,0 +1,22 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install deps
+        run: pip install pyyaml 'jsonschema>=4.18'
+
+      - name: Validate (schema lint + cross-reference)
+        run: bash scripts/validate.sh
